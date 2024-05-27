@@ -14,7 +14,7 @@ cartRouter.get ("/", async (req, res) => {
         res.status(500).json({msg: error.mesege});
     }})
 
-cartRouter.post("/:idCart/product/:idProd", async (req, res, next) => {
+cartRouter.post("/:idCart/products/:idProd", async (req, res, next) => {
     try {
         const { idProd } = req.params
         const { idCart } = req.params
@@ -27,9 +27,8 @@ cartRouter.post("/:idCart/product/:idProd", async (req, res, next) => {
 
 cartRouter.get("/:cid", async (req, res) => {
     try {
-        const { id } = req.params
-        console.log(id)
-        const product = await cartManager.getCartProductsById(id); 
+        const { cid } = req.params
+        const product = await cartManager.getCartProductsById(cid); 
         res.status(200).json(product);
     }catch (error) {
         res.status(500).json({msg: error.mesege});

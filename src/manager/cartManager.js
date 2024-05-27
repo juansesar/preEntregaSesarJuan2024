@@ -1,6 +1,6 @@
 import ProductManager from "./productManager.js"
 import fs from "fs";
-const productManager = new ProductManager("./data/products.json")
+const productManager = new ProductManager("./src/data/products.json")
 
 class
 CartManager{
@@ -26,7 +26,7 @@ async newCartProduct(idCart, idProd){
             cartExist.products.push(prod)
         } else existProdInCart.quantity += 1
         const updatedCarts = newCartProduct.map((cart) => {
-          if(cart.id === idCart) return cartExist
+          if(cart.id == idCart) return cartExist
           return cart
         })
         await fs.promises.writeFile(this.path, JSON.stringify(updatedCarts));
@@ -37,7 +37,7 @@ async newCartProduct(idCart, idProd){
     }
 
 async idGenerator(){
-    const products = await this.getProducts()
+    const products = await this.getCartProducts()
     const number = products.length
     const id = number + 1
     return id
@@ -47,7 +47,7 @@ async idGenerator(){
 async createCart() {
     try {
       const cart = {
-        id: this.idGenerator(),
+        id: await this.idGenerator(),
         products: [],
       }
       const carts = await this.getCartProducts();
@@ -59,28 +59,29 @@ async createCart() {
     }
   }
 
-async getCartProducts () { 
+async getCartProducts() { 
     try {
         if (fs.existsSync(this.path)) {
-          const carts = await fs.promises.readFile(this.path, "utf-8");
-          const cartsJSON = JSON.parse(carts);
+          const carts = await fs.promises.readFile(this.path, "utf-8")
+          const cartsJSON = JSON.parse(carts)
           return cartsJSON;
         } else {
-          return [];
+          return []
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
 
 async getCartProductsById(id){ 
     try {
-      const carts = await this.getCartProducts();
-      const cart = carts.find((c) => c.id === id);
-      if (!cart) return null;
-      return cart;
+      console.log(id)
+      const carts = await this.getCartProducts()
+      const cart = carts.find((c) => c.id == id)
+      if (!cart) return null
+      return cart
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 }

@@ -1,5 +1,5 @@
 const productValidator = (rec, res, next) =>{
-    if( rec.body.tittle === undefined ||
+    if( rec.body.title === undefined ||
         rec.body.description === undefined ||
         rec.body.code === undefined ||
         rec.body.price === undefined ||
