@@ -22,8 +22,10 @@ class ProductManager {
             if (limit){
                 return array.filter((p) => {
                     const newArray = []
-                    if(indexOf(p) != -1 || indexOf(p) != null || indexOf(p) <= limit+1) {
+                    if( array.indexOf(p) > -1 && array.indexOf(p) != null && array.indexOf(p) < limit) {
                         newArray.push(p)
+                        console.log(limit)
+                        console.log(newArray)
                         return newArray
                     }})
                 

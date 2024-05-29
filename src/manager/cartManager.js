@@ -20,7 +20,7 @@ async newCartProduct(idCart, idProd){
         const existProdInCart = cartExist.products.find((prod) => prod.product === idProd)
         if(!existProdInCart){
             const prod = {
-              product: idProd,
+              id: idProd,
               quantity: 1
             };
             cartExist.products.push(prod)
