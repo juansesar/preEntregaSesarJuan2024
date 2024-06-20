@@ -7,25 +7,25 @@ const productManager = new ProductManager(ProductModel)
 
 export const newCartProduct = async (cartId, prodId) => {
   try {
-    const existCart = await getById(cartId);
-    if (!existCart) return null;
+    const existCart = await cartManager.getById(cartId)
+    if (!existCart) return null
 
-    const existProd = await productManager.getById(prodId);
-    if (!existProd) return null;
+    const existProd = await productManager.getById(prodId)
+    if (!existProd) return null
 
-    return await cartManager.addProdToCart(cartId, prodId);
+    return await cartManager.addProdToCart(cartId, prodId)
   } catch (error) {
     throw new Error(error)
   }
 };
 
-export const createCart = async () => {
+export const create = async () => {
   try {
     const newcart = await cartManager.create();
     if (!newcart) return false
     else return newcart
   } catch (error) {
-    throw new Error(error)
+    throw new Error("este?",error)
   }
 }
 
@@ -38,9 +38,9 @@ export const getAll = async () => {
 }
 
 
-export const getByID = async (id) => {
+export const getById = async (id) => {
   try {
-    return await cartManager.getById()
+    return await cartManager.getById(id)
   } catch (error) {
     throw new Error(error)
   }
@@ -48,7 +48,7 @@ export const getByID = async (id) => {
 
 export const update = async (id, obj) => {
   try {
-    return await cartManager.update(id, obj);
+    return await cartManager.update(id, obj)
   } catch (error) {
     throw new Error(error)
   }
@@ -66,11 +66,11 @@ export const remove = async (id) => {
 
 export const removeProdToCart = async (cartId, prodId) => {
   try {
-    const existCart = await getById(cartId);
-    if (!existCart) return null;
+    const existCart = await getById(cartId)
+    if (!existCart) return null
     const existProdInCart = await cartManager.existProdInCart(cartId, prodId);
-    if (!existProdInCart) return null;
-    return await cartManager.removeProdToCart(cartId, prodId);
+    if (!existProdInCart) return null
+    return await cartManager.removeProdToCart(cartId, prodId)
   } catch (error) {
     throw new Error(error)
   }
@@ -78,11 +78,11 @@ export const removeProdToCart = async (cartId, prodId) => {
 
 export const updateProdQuantityToCart = async (cartId, prodId, quantity) => {
   try {
-    const existCart = await getById(cartId);
-    if (!existCart) return null;
-    const existProdInCart = await cartManager.existProdInCart(cartId, prodId);
-    if (!existProdInCart) return null;
-    return await cartManager.updateProdQuantityToCart(cartId, prodId, quantity);
+    const existCart = await getById(cartId)
+    if (!existCart) return null
+    const existProdInCart = await cartManager.existProdInCart(cartId, prodId)
+    if (!existProdInCart) return null
+    return await cartManager.updateProdQuantityToCart(cartId, prodId, quantity)
   } catch (error) {
     throw new Error(error)
   }
@@ -90,13 +90,13 @@ export const updateProdQuantityToCart = async (cartId, prodId, quantity) => {
 
 export const clearCart = async (cartId) => {
   try {
-    const existCart = await getById(cartId);
-    if (!existCart) return null;
+    const existCart = await getById(cartId)
+    if (!existCart) return null
     return await cartManager.clearCart(cartId)
   } catch (error) {
     throw new Error(error)
   }
-};
+}
 
 
 
