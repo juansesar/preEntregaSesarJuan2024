@@ -4,7 +4,10 @@ import cartRouter from "./routes/cartRouter.js"
 import {__dirname} from "./utils.js"
 import handlebars from "express-handlebars"
 import {Server} from "socket.io"
-import ProductManager from "./manager/productManager.js";
+import ProductManager from "./daos/filesistem/productManager.js";
+import { initMongoDB } from "./daos/mongoDB/connect.js"
+import { errorHandler } from "./middleware/errorHandler.js";
+
 
 const productManager = new ProductManager(`${__dirname}/data/products.json`)
 const app = express();
@@ -17,6 +20,9 @@ app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
 app.set("views", __dirname + '/views')
 
+app.use(errorHandler)
+
+initMongoDB()
 const PORT = 8080
 
 const httpServer= app.listen(PORT, ()=> console.log("escuchando"))
@@ -33,6 +39,9 @@ app.get("/realTimeProducts", (req, res) => {
 socketServer.on("connection", async (socket) => {
     socket.emit("showProducts", await productManager.getProducts())
     socketServer.emit("listProducts", await productManager.getProducts())
+    socket.on("deleteEvent", async(id) =>{
+        await productManager.deleteProduct(id)
+    })
 
     console.log("conectado uija")
     socket.on("newProductEmit", async(prod) => {

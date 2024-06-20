@@ -1,6 +1,6 @@
 import ProductManager from "./productManager.js"
 import fs from "fs";
-const productManager = new ProductManager("./src/data/products.json")
+const productManager = new ProductManager("./data/products.json")
 
 class
 CartManager{
@@ -11,7 +11,7 @@ CartManager{
 
 async newCartProduct(idCart, idProd){
     try {
-        const newCartProducts = await productManager.getProductById(idProd)
+        const newCartProducts = await productManager.getById(idProd)
         // console.log(newCartProducts)
         if(!newCartProducts) throw new Error('Product not found')
         let newCartProduct = await this.getCartProducts()
@@ -32,7 +32,7 @@ async newCartProduct(idCart, idProd){
         await fs.promises.writeFile(this.path, JSON.stringify(updatedCarts));
         return cartExist
       } catch (error) {
-        console.log(error);
+        throw new Error(error);
       }
     }
 
@@ -55,7 +55,7 @@ async createCart() {
       await fs.promises.writeFile(this.path, JSON.stringify(carts));
       return cart;
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 
@@ -69,7 +69,7 @@ async getCartProducts() {
           return []
         }
       } catch (error) {
-        console.log(error)
+        throw new Error(error)
       }
     }
 
@@ -81,7 +81,7 @@ async getCartProductsById(id){
       if (!cart) return null
       return cart
     } catch (error) {
-      console.log(error)
+      throw new Error(error)
     }
   }
 }

@@ -54,8 +54,17 @@ socket.on("listProducts", (prod) => {
                 <p> precio : ${p.price}</p> 
                 <p> stock : ${p.stock}</p> 
                 <p> imagen : ${p.thumbnails}</p>
-                -------------------------`         
-    }).join(" ")
+                <button id="deleteBtn", onClick(${p.id})>borrar</button> </br>
+                -------------------------`
+    }
+
+
+    ).join(" ")
     
+    
+    const deleteBtn = document.getElementById("deleteBtn")
+    deleteBtn.addEventListener("click", (id) => {
+        socket.emit("deleteEvent", (id))
+    })
 })
 

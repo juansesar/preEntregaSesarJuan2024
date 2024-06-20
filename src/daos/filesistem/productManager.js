@@ -14,7 +14,7 @@ class ProductManager {
         return id
     }
     
-    async getProducts(limit){
+    async getAll(limit){
         try{
             
             const products = await fs.promises.readFile(this.path, "utf8")
@@ -33,24 +33,25 @@ class ProductManager {
             }else{
             return JSON.parse(products)}
         }catch (error) {
-            console.log(error);
+            throw new Error(error)
           }
         }
         
 
-    async getProductById(id) {
+    async getById(id) {
         try{
 
-            const products = await this.getProducts()
+            const products = await this.getAll()
             const product = products.find((p) => p.id == id) 
             console.log(product)
-            return product 
+            if (product) {return product }
+            return null
         }catch (error) {
-            console.log(error);
+            throw new Error(error)
           }   
     }
 
-    async newProduct(prod){ 
+    async create(prod){ 
         try {
             
             const product = { 
@@ -59,19 +60,19 @@ class ProductManager {
                 ...prod,
             }
             this.productId = product.id
-            const products = await this.getProducts()
+            const products = await this.getAll()
             products.push(product)
             await fs.promises.writeFile(this.path, JSON.stringify(products))
             console.log (products)
             return products
         }catch(error) {
-            console.log(error);
+            throw new Error(error)
           }
     }
 
-    async updateProduct(id, obj){
+    async upload(id, obj){
         try{
-            const products = await this.getProducts() 
+            const products = await this.getAll() 
             let product = products.find((p) => p.id == id)
             product = { 
                 id : product.id,
@@ -84,20 +85,20 @@ class ProductManager {
             return this.getProducts()
 
         }catch (error) {
-            console.log(error);
+            throw new Error(error)
           }
         
         
     }
 
-    async deleteProduct (id){ 
+    async delete (id){ 
         try{
-            let products = await this.getProducts() 
+            let products = await this.getAll() 
             let newArrayProducts = products.filter((p) => p.id != id)
             await fs.promises.writeFile(this.path, JSON.stringify(newArrayProducts))
             return this.getProducts()
         }catch (error) {
-            console.log(error);
+            throw new Error(error)
           }  
     }
 
