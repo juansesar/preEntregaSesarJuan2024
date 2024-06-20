@@ -65,7 +65,7 @@ export default class CartManager {
         } else {
           return await this.model.findByIdAndUpdate(
             cartId,
-            { $push: { products: { products: prodId } } },
+            { $push: { products: { product: prodId } } },
             { new: true }
           )
         }
