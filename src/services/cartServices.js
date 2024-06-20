@@ -9,10 +9,8 @@ export const newCartProduct = async (cartId, prodId) => {
   try {
     const existCart = await cartManager.getById(cartId)
     if (!existCart) return null
-
-    const existProd = await productManager.getById(prodId)
+    const existProd = await productManager.getByID(prodId)
     if (!existProd) return null
-
     return await cartManager.addProdToCart(cartId, prodId)
   } catch (error) {
     throw new Error(error)

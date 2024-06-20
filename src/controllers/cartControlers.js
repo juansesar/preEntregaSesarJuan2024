@@ -57,14 +57,16 @@ export const addProdToCart = async (req, res, next) => {
     try {
       const { cartId } = req.params;
       const { prodId } = req.params;
+      console.log("controler",cartId)
+      console.log("controler-", prodId)
       const newProdToUserCart = await service.newCartProduct(
         cartId,
-        prodId,
+        prodId
       );
       if (!newProdToUserCart) res.json({ msg: "Error add product to cart" });
       else res.json(newProdToUserCart);
     } catch (error) {
-      next(error.message);
+      next("controler",error.message);
     }
   };
 

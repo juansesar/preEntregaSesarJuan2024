@@ -5,13 +5,17 @@ export default class ProductManager {
         this.model = model
     }
 
-    async getAll(){
+    async getAll(page = 1, limit = 10, title, sort) {
         try {
-            return await this.model.find()
+          const filter = title ? { 'title': title } : {};
+          let sortOrder = {};
+          if(sort) sortOrder.price = sort === 'asc' ? 1 : sort === 'desc' ? -1 : null;
+          const response = await ProductModel.paginate(filter, { page, limit, sort: sortOrder });
+          return response;
         } catch (error) {
-            console.log(error)
+          console.log(error);
         }
-    }
+      }
 
     async getByID(id){
         try {

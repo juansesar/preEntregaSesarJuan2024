@@ -4,12 +4,26 @@ import * as services from "../services/productServices.js"
 
 export const getAll = async (req, res, next) => {
     try {
-        const prods = await services.getAll()
-        res.json(prods)
+      const { page, limit, name, sort } = req.query
+      const response = await service.getAll(page, limit, name, sort)
+      const nextLink = response.hasNextPage ? `http://localhost:8080/products?page=${response.nextPage}` : null
+      const prevLink = response.hasPrevPage ? `http://localhost:8080/products?page=${response.prevPage}` : null
+      res.status(200).json({
+        status: 'success',
+        payload: response.docs,
+        totalPages: response.totalDocs,
+        prevPage: response.prevPage,
+        nextPage: response.nextPage,
+        page,
+        hasNextPage: response.hasNextPage,
+        hasPrevPage: response.hasPrevPage,
+        prevLink,
+        nextLink
+      })
     } catch (error) {
-        next(error.message)
+      next(error.message)
     }
-}
+  }
 export const getById = async (req, res, next) => {
     try {
         const { id } = req.params
