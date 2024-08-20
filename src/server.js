@@ -11,6 +11,11 @@ import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
 import sessionRoutes from "./routes/sessionRouter.js"
 import userRoutes from "./routes/userRouter.js"
+import morgan from "morgan"
+import passport from "passport"
+import { initializePassport } from "./config/passport.config.js"
+import routes from "./routes/index.js"
+import { config } from "./config/config.js"
 
 
 const productManager = new ProductManager(`${__dirname}/data/products.json`)
@@ -25,18 +30,25 @@ app.set("view engine", "handlebars")
 app.set("views", __dirname + '/views')
 app.use(errorHandler)
 app.use(cookieParser)
-app.use(express.static:("public"))
+// app.use(express.static:("public"))
+app.use(morgan("dev"))
 
-mongoose.conect("momgodb://localhost:27017/proyecto")
-.then(()=>{
-    console.log("conectado a mongo")
-})
-.catch(()=>{
-    console.log("error")
-})
+initializePassport();
+app.use(passport.initialize())
+
+mongoose
+  .connect(config.MONGO_URI)
+  .then(() => {
+    console.log("Conectado a MongoDB")
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
 
 app.use("/api/session", sessionRoutes)
 app.use("/api/user", userRoutes)
+app.use("/api", routes)
 
 initMongoDB()
 const PORT = 8080
