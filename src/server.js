@@ -4,9 +4,13 @@ import cartRouter from "./routes/cartRouter.js"
 import {__dirname} from "./utils.js"
 import handlebars from "express-handlebars"
 import {Server} from "socket.io"
-import ProductManager from "./daos/filesistem/productManager.js";
+import ProductManager from "./daos/filesistem/productManager.js"
 import { initMongoDB } from "./daos/mongoDB/connect.js"
-import { errorHandler } from "./middleware/errorHandler.js";
+import { errorHandler } from "./middleware/errorHandler.js"
+import mongoose from "mongoose"
+import cookieParser from "cookie-parser"
+import sessionRoutes from "./routes/sessionRouter.js"
+import userRoutes from "./routes/userRouter.js"
 
 
 const productManager = new ProductManager(`${__dirname}/data/products.json`)
@@ -19,8 +23,20 @@ app.use("/cart", cartRouter )
 app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
 app.set("views", __dirname + '/views')
-
 app.use(errorHandler)
+app.use(cookieParser)
+app.use(express.static:("public"))
+
+mongoose.conect("momgodb://localhost:27017/proyecto")
+.then(()=>{
+    console.log("conectado a mongo")
+})
+.catch(()=>{
+    console.log("error")
+})
+
+app.use("/api/session", sessionRoutes)
+app.use("/api/user", userRoutes)
 
 initMongoDB()
 const PORT = 8080

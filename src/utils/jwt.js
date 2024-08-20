@@ -1,22 +1,20 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import { config } from "../config/config.js";
 
-const PRIVATE_KEY = "s3cr3t"
+const { JWT_SECRET } = config;
 
-export function generationToken(user) {
-    const payload = {
-        email : user.email,
-        role : user.role
-    }
-    return jwt.sign(payload, PRIVATE_KEY, {
-        expiresIn: "5m"
-    })
-}
+export const generateToken = (payload) => {
+  return jwt.sign(payload, JWT_SECRET, {
+    expiresIn: "5m",
+  });
+};
 
-export function verifyToken(token) {
-    try {
-        const decoded = jwy.verify(token, PRIVATE_KEY)
-        return decoded
-    } catch (error) {
-        throw new Error ("token no valido")
-    }
-}
+export const verifyToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    return decoded;
+  } catch (error) {
+    throw new Error("Token no valido");
+  }
+};
