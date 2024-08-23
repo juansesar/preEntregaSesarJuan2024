@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { userModel } from "../models/user.js";
 import { validate } from "../middlewares/validation.middleware.js";
-import { authDto } from "../dtos/auth.dto.js";
+import { authDto } from "../dtos/auth.Dtos.js";
 import { generateToken } from "../utils/jwt.js";
 import passport from "passport";
-import { userDto } from "../dtos/user.dto.js";
+import { userDto } from "../dtos/userDtos.js";
 
 const router = Router();
 

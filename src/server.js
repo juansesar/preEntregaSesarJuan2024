@@ -13,7 +13,7 @@ import sessionRoutes from "./routes/sessionRouter.js"
 import userRoutes from "./routes/userRouter.js"
 import morgan from "morgan"
 import passport from "passport"
-import { initializePassport } from "./config/passport.config.js"
+import { initializePassport } from "./config/passportConfig.js"
 import routes from "./routes/index.js"
 import { config } from "./config/config.js"
 
